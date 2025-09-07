@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Static QR Code Generator</title>
+    <link rel="stylesheet" href="./styles.css">
+  </head>
+  <body>
+    <main class="app">
+      <header class="app__header">
+        <h1>QR Code Generator</h1>
+      </header>
+
+      <section class="card">
+        <div class="preview">
+          <div class="preview__outline" id="preview-outline">
+            <button id="mode-toggle" class="toggle" aria-label="Toggle QR light/dark" title="Toggle QR light/dark">
+              <span class="toggle__knob" aria-hidden="true"></span>
+              <span class="toggle__label" id="toggle-label">Light</span>
+            </button>
+            <label for="logo-input" class="button ghost upload-in-outline" id="logo-label">Add logo</label>
+            <input id="logo-input" type="file" accept="image/svg+xml" hidden />
+            <div id="qr-container" class="qr-container" aria-live="polite" aria-label="QR preview"></div>
+          </div>
+
+          <div class="controls-row">
+            <div class="control-left">
+              <label for="url-input" class="sr-only">URL</label>
+              <input id="url-input" type="url" placeholder="Enter URL" spellcheck="false" />
+            </div>
+          </div>
+
+          <div class="actions">
+            <button id="download-png" class="button">Download PNG</button>
+            <button id="download-svg" class="button">Download SVG</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- qr-code-styling library -->
+    <script src="https://unpkg.com/qr-code-styling@1.6.0/lib/qr-code-styling.js"></script>
+    <script src="./script.js"></script>
+  </body>
+  </html>
+
+
