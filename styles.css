@@ -1,11 +1,11 @@
 :root {
   --color-bg: #141413;
   --color-surface: #141413;
-  --color-text: #e6edf3;
-  --color-muted: #9aa7b3;
+  --color-text: #ffffff;
+  --color-muted: #fcfbfa;
   --color-accent: #F37338; /* dark mode corners */
   --color-accent-contrast: #cf4500; /* light mode corners */
-  --color-primary: #ffffff;
+  --color-primary: #fcfbfa;
   --outline: #323231;
   --outline-bg-dark: #141413;
   --outline-bg-light: #F7F3F1;
@@ -77,7 +77,7 @@ h1 { font-size: 20px; margin: 0; font-weight: 600; color: var(--color-text); }
   padding: 6px 10px;
   border-radius: 999px;
   border: 1px solid var(--outline);
-  background: #0f1520;
+  background: #323231;
   color: var(--color-text);
   cursor: pointer;
 }
@@ -115,7 +115,7 @@ input[type="url"] {
   color: var(--color-text);
   border: 1px solid var(--outline);
   border-radius: 10px;
-  padding: 10px 12px;
+  padding: 6px 9px;
 }
 
 .button {
