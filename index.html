@@ -32,6 +32,16 @@
           </div>
 
           <div class="actions">
+            <div class="size-picker">
+              <label for="export-size" class="sr-only">Export size</label>
+              <select id="export-size" aria-label="Select export size">
+                <option value="256">256×256</option>
+                <option value="400" selected>400×400</option>
+                <option value="600">600×600</option>
+                <option value="800">800×800</option>
+                <option value="1024">1024×1024</option>
+              </select>
+            </div>
             <button id="download-png" class="button">Download PNG</button>
             <button id="download-svg" class="button">Download SVG</button>
           </div>

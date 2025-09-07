@@ -19,6 +19,7 @@ const COLORS = {
 let currentMode = DARK_MODE; // default to dark theme QR
 let qr = null;
 let uploadedSvgDataUrl = null;
+const PREVIEW_SIZE = 360;
 
 // Elements
 const qrContainer = document.getElementById("qr-container");
@@ -29,13 +30,14 @@ const toggleLabel = document.getElementById("toggle-label");
 const logoInput = document.getElementById("logo-input");
 const downloadPngBtn = document.getElementById("download-png");
 const downloadSvgBtn = document.getElementById("download-svg");
+const sizeSelect = document.getElementById("export-size");
 
 function createQrInstance(value) {
   const palette = COLORS[currentMode];
   const qrOptions = {
-    // render at 360 to ensure no clipping and good fit within outline
-    width: 360,
-    height: 360,
+    // render at fixed preview size to ensure no clipping and good fit within outline
+    width: PREVIEW_SIZE,
+    height: PREVIEW_SIZE,
     type: "svg",
     data: value,
     image: uploadedSvgDataUrl || undefined,
@@ -120,30 +122,51 @@ logoInput.addEventListener("change", async (e) => {
   updateQr();
 });
 
-downloadPngBtn.addEventListener("click", async () => {
+async function exportQr(format) {
   if (!qr) return;
-  const data = await qr.getRawData("png");
-  const url = URL.createObjectURL(data);
+  const selected = sizeSelect ? parseInt(sizeSelect.value, 10) || 400 : 400;
+  // Create a separate instance for export to avoid touching the preview
+  const palette = COLORS[currentMode];
+  const dataValue = urlInput.value || DEFAULT_URL;
+  const exportQrInstance = new QRCodeStyling({
+    width: selected,
+    height: selected,
+    type: "svg",
+    data: dataValue,
+    image: uploadedSvgDataUrl || undefined,
+    imageOptions: {
+      hideBackgroundDots: true,
+      imageSize: 0.32,
+      margin: 8,
+      crossOrigin: "anonymous",
+    },
+    qrOptions: {
+      errorCorrectionLevel: "H",
+      margin: 0,
+    },
+    backgroundOptions: { color: "transparent" },
+    dotsOptions: { color: palette.dots, type: "dots" },
+    cornersSquareOptions: { color: palette.corners, type: "extra-rounded" },
+    cornersDotOptions: { color: palette.corners, type: "dot" },
+  });
+
+  const dataBlob = await exportQrInstance.getRawData(format);
+  const url = URL.createObjectURL(dataBlob);
   const a = document.createElement("a");
   a.href = url;
-  a.download = "qr.png";
+  a.download = `qr.${format}`;
   document.body.appendChild(a);
   a.click();
   a.remove();
   URL.revokeObjectURL(url);
+}
+
+downloadPngBtn.addEventListener("click", async () => {
+  await exportQr("png");
 });
 
 downloadSvgBtn.addEventListener("click", async () => {
-  if (!qr) return;
-  const data = await qr.getRawData("svg");
-  const url = URL.createObjectURL(data);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = "qr.svg";
-  document.body.appendChild(a);
-  a.click();
-  a.remove();
-  URL.revokeObjectURL(url);
+  await exportQr("svg");
 });
 
 // Initialize
